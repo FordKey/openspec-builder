@@ -177,6 +177,7 @@ You are building ${project.name}. Treat this folder as the application repositor
 - Use \`public/brand/\` for logo and brand assets.
 - Use \`docs/wireframe/\` as visual reference, not production source.
 - Follow the stack, backend, additional stack requirements, Docker, styling, palette, fonts, icon library, and agent instructions in \`openspec/config.yaml\` and \`docs/builder-inputs.md\`.
+- Follow the First Principles and Best Practices Stop Protocol below. If it is triggered, stop building and ask the application developer for direction.
 - Run the AI Sanity Check Protocol below before coding and at each major build milestone.
 - Validate the OpenSpec change before final handoff when tooling is available:
   \`${text(project.details.validationCommand, `openspec validate ${changeId} --strict`)}\`
@@ -230,6 +231,15 @@ context: |${yamlBlock([
   ])}
 
 rules:
+  first_principles:
+    - The coding agent MUST reason from first principles for every material product, architecture, UI, data, database, and API decision.
+    - The coding agent MUST NOT assume a direction when more than one good option exists; it must stop and ask the application developer.
+    - The coding agent MUST use best practices for UI/UX orchestration, data structures, database normalization, API connectivity, accessibility, and state handling.
+    - Every button, link, form action, icon action, and navigation affordance MUST have a clear requirement-backed purpose and working behavior.
+    - Any control that stores required data MUST persist that data to the approved database or storage path; any control that triggers an event MUST trigger the event required by the specs.
+    - If a button or control has no clear purpose, cannot be connected to a required event, or cannot persist required data, the coding agent MUST stop building and ask for instructions.
+    - If the coding agent detects inconsistency with first principles, best practices, requirements, data integrity, database normalization, API contracts, or UI intent, it MUST stop building and ask for instructions.
+    - Failure to stop on these conflicts is considered a build failure because it hides inevitable bugs and implementation drift.
   proposal:
     - Include stack, backend, deployment, agent, and brand choices in implementation impact.
   design:
@@ -251,10 +261,10 @@ sanity_check_protocol:
     - After every 8-12 meaningfully edited files, or roughly every 60-90 minutes in a long coding session.
     - Before declaring any milestone complete.
     - Before final handoff.
-    - Immediately when implementation conflicts with project intent, selected stack, security constraints, mobile layout, deployment choices, brand system, or wireframe direction.
+    - Immediately when implementation conflicts with project intent, first principles, best practices, selected stack, security constraints, data integrity, database normalization, API connectivity, button/action purpose, mobile layout, deployment choices, brand system, or wireframe direction.
   required_review:
     - Compare implementation against AGENTS.md, openspec/config.yaml, docs/builder-inputs.md, proposal.md, design.md, tasks.md, specs, and docs/wireframe.
-    - Confirm stack, backend, Docker/deployment, styling, colors, fonts, icons, navigation, data model, integrations, and constraints still match the approved selections.
+    - Confirm first-principles reasoning, best-practice choices, button/action purpose, data persistence, API behavior, stack, backend, Docker/deployment, styling, colors, fonts, icons, navigation, data model, integrations, and constraints still match the approved selections.
     - Report decisions made, mismatches found, risks, missing specs, tests run, and exact next actions.
 `;
 }
@@ -416,7 +426,9 @@ This file records every OpenSpec-Builder wizard field in markdown so coding agen
 
 function renderSanityCheckProtocol(project: ArtifactProject) {
   const changeId = safeSegment(text(project.details.changeId, `add-${project.slug}`), `add-${project.slug}`);
-  return `## AI Sanity Check Protocol
+  return `${renderFirstPrinciplesProtocol()}
+
+## AI Sanity Check Protocol
 
 At the checkpoints below, stop and produce a short written sanity check before continuing. Do not bury this inside code comments.
 
@@ -440,15 +452,17 @@ At the checkpoints below, stop and produce a short written sanity check before c
 - After every 8-12 meaningfully edited files, or roughly every 60-90 minutes in a long coding session.
 - Before declaring any milestone complete.
 - Before final handoff.
-- Immediately when implementation conflicts with Builder intent, stack, backend, security, mobile layout, Docker/deployment, brand system, or wireframe direction.
+- Immediately when implementation conflicts with Builder intent, first principles, best practices, stack, backend, security, mobile layout, data integrity, database normalization, API connectivity, button/action purpose, Docker/deployment, brand system, or wireframe direction.
 
 ### Output Format
 
 \`\`\`text
 AI Sanity Check
 - Builder intent still matched: yes/no
+- First principles and best practices still matched: yes/no
 - Stack/backend/deployment still matched: yes/no
 - UI/navigation/brand/wireframe still matched: yes/no
+- Every button/control has requirement-backed purpose and working behavior: yes/no
 - Data/security/integration constraints still matched: yes/no
 - Files reviewed:
 - Tests or commands run:
@@ -457,8 +471,25 @@ AI Sanity Check
 - Next implementation step:
 \`\`\`
 
-If any answer is "no", pause implementation unless the mismatch is clearly documented as a deliberate, low-risk tradeoff.
+If any answer is "no", stop implementation and ask the application developer for instructions before writing more code.
 `;
+}
+
+function renderFirstPrinciplesProtocol() {
+  return `## First Principles and Best Practices Stop Protocol
+
+The coding agent is REQUIRED to be hardwired to first-principles reasoning for every material decision it makes.
+
+- Do not make assumptions when more than one good implementation, product, architecture, UI, data, database, or API option exists.
+- When more than one good option exists, stop building and ask the application developer which direction to take.
+- Use best practices for UI/UX orchestration, accessibility, data structures, database normalization, API connectivity, state handling, validation, and error handling.
+- Make certain every button, link, form action, icon action, and navigation control has a clear purpose tied to the requirements.
+- Make certain every button or control actually works: it must store required data in the approved database/storage path or trigger the event required by the application requirements.
+- If a button or control does not have a clear purpose, stop building and ask the application developer for instructions.
+- If a button or control cannot be connected to required persistence or a required event, stop building and ask the application developer for instructions.
+- If implementation reveals inconsistency with first principles, best practices, requirements, database normalization, data integrity, API contracts, UI intent, or the OpenSpec artifacts, stop building the codebase and alert the application developer.
+- Failure to stop and ask on these conflicts is considered an application build failure because it hides predictable bugs, drift, and user-facing failures.
+- The application developer must be given an opportunity to address the gap before more code is written.`;
 }
 
 function writeLogo(project: ArtifactProject, logoDir: string): string {

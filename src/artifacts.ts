@@ -191,6 +191,11 @@ ${tasks(details.taskPlan)}
 ## 4. AI Sanity Check Cadence
 
 - [ ] Before writing code, produce an AI Sanity Check comparing project intent, stack, backend, deployment, UI, brand, data, integrations, and constraints against the artifacts.
+- [ ] Before choosing between multiple good approaches, stop and ask the application developer for direction instead of assuming.
+- [ ] Confirm first-principles reasoning and best practices for UI/UX orchestration, accessibility, data structures, database normalization, API connectivity, state handling, validation, and error handling.
+- [ ] Confirm every button, link, form action, icon action, and navigation control has a requirement-backed purpose and working behavior.
+- [ ] Confirm every control that saves required data persists it to the approved database/storage path, and every event control triggers the required event.
+- [ ] Stop implementation and ask the application developer for instructions if any control lacks clear purpose, cannot persist required data, cannot trigger the required event, or conflicts with first principles or best practices.
 - [ ] After scaffolding, confirm the generated project structure, package choices, backend choice, Docker/deployment files, and styling setup match the OpenSpec artifacts.
 - [ ] After backend/database/auth/storage/API changes, confirm data model, security, integration, and deployment choices still match project intent.
 - [ ] After each major workflow or screen group, compare the implementation to \`docs/wireframe/index.html\`, proposal, design, and specs.
@@ -246,6 +251,10 @@ Use one prompt for small apps. For larger apps, split into foundation, data/API,
 ## AI Sanity Check Guidance
 
 Tell Claude/Codex to run the sanity check before coding, after scaffold, after backend/data/security work, after each major screen/workflow group, every 8-12 meaningfully edited files or 60-90 minutes in long sessions, and before final handoff.
+
+## First Principles Stop Guidance
+
+Tell Claude/Codex that it is required to stop building and ask the application developer when more than one good option exists, when any button/control lacks a clear requirement-backed purpose, when data cannot be persisted correctly, when an event cannot be wired to the required behavior, or when implementation conflicts with first principles, best practices, database normalization, API contracts, data integrity, accessibility, or UI/UX intent.
 `;
   }
 
