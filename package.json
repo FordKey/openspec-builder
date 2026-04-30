@@ -1,0 +1,55 @@
+{
+  "name": "openspec-builder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"vite --host 0.0.0.0\" \"PORT=3000 tsx watch src/server.ts\"",
+    "dev:api": "tsx watch src/server.ts",
+    "build": "tsc --noEmit && vite build",
+    "start": "node --import tsx src/server.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.0",
+    "@tanstack/react-router": "^1.168.26",
+    "@tanstack/react-router-devtools": "^1.166.13",
+    "better-sqlite3": "^12.9.0",
+    "hono": "^4.12.15",
+    "lucide-react": "^1.14.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "zod": "^4.4.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.4",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "tailwindcss": "^4.2.4",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10",
+    "vitest": "^4.1.5"
+  },
+  "description": "Generate OpenSpec project handoff folders and wireframes for AI coding agents.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FordKey/openspec-builder.git"
+  },
+  "homepage": "https://github.com/FordKey/openspec-builder#readme",
+  "bugs": {
+    "url": "https://github.com/FordKey/openspec-builder/issues"
+  },
+  "keywords": [
+    "openspec",
+    "ai-agents",
+    "hono",
+    "tanstack",
+    "sqlite",
+    "home-lab"
+  ]
+}
