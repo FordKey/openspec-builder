@@ -63,6 +63,7 @@ ${bullets(details.proposalImpact, `Affected specs: ${value('affectedSpecs', capa
 - Primary font: ${value('primaryFont')}
 - Secondary font: ${value('secondaryFont')}
 - Docker strategy: ${value('dockerStrategy')}
+- Additional tech stack requirements: ${value('additionalTechStackRequirements', 'None specified')}
 - Cloudflared: ${value('cloudflared')}
 - Portainer: ${value('portainer')}
 - Target chat extension: ${value('targetChatExtension')}
@@ -129,6 +130,7 @@ ${stack}
 - Integrations: ${value('integrations', 'None specified')}
 - Constraints: ${value('constraints', 'None specified')}
 - Docker/cloud: ${value('dockerStrategy')}; Cloudflared ${value('cloudflared')}; Portainer ${value('portainer')}
+- Additional tech stack requirements: ${value('additionalTechStackRequirements', 'None specified')}
 
 ## Visual System Contract
 
@@ -173,6 +175,7 @@ ${tasks(details.taskPlan)}
 - [ ] Configure backend/data access for ${value('backendFramework')} and the data needs listed in the design.
 - [ ] Apply ${list('styling')} with ${value('mode')} support, palette ${paletteChoice}, ${value('primaryFont')} / ${value('secondaryFont')}, and ${value('fontLibrary')}.
 - [ ] Add Docker/deployment files according to: ${value('dockerStrategy')}; Cloudflared ${value('cloudflared')}; Portainer ${value('portainer')}.
+- [ ] Apply any additional stack requirements listed by the project owner: ${value('additionalTechStackRequirements', 'None specified')}.
 - [ ] Keep logo and brand assets under \`public/brand/\` and use them in the UI where appropriate.
 
 ## 3. OpenSpec Verification
@@ -217,6 +220,7 @@ ${tasks(details.taskPlan)}
 - Fonts selected: ${Boolean(details.primaryFont) && Boolean(details.secondaryFont)}
 - Icon library selected: ${Boolean(details.fontLibrary)}
 - Docker strategy selected: ${Boolean(details.dockerStrategy)}
+- Additional tech stack requirements captured: ${Boolean(details.additionalTechStackRequirements)}
 - Cloudflared selected: ${Boolean(details.cloudflared)}
 - Portainer selected: ${Boolean(details.portainer)}
 - Agent target selected: ${Boolean(details.targetChatExtension)}
@@ -326,6 +330,7 @@ function stackBrief(details: Record<string, unknown>, value: (name: string, fall
 - Runtime: ${value('runtimeOption')}
 - Backend: ${value('backendFramework')}
 - Stack interpretation: ${stackInterpretation(value)}
+- Additional tech stack requirements: ${value('additionalTechStackRequirements', 'None specified')}
 - Data needs: ${value('dataNeeds', 'TBD')}
 - Main workflow: ${value('mainWorkflow', 'TBD')}
 - User actions: ${value('userActions', 'TBD')}
@@ -415,6 +420,7 @@ function normalizeHex(value: string | undefined, fallback: string): string {
 
 function deploymentBrief(value: (name: string, fallback?: string) => string): string {
   return `- Docker containers: ${value('dockerStrategy')}
+- Additional tech stack requirements: ${value('additionalTechStackRequirements', 'None specified')}
 - Cloudflared: ${value('cloudflared')}
 - Portainer: ${value('portainer')}
 - Container naming: use simple service names such as app, api, db, supabase, cloudflared, and portainer.`;

@@ -150,6 +150,7 @@ You are building ${project.name}. Treat this folder as the application repositor
 - Technology stack: ${text(project.details.technologyStack, 'TBD')}
 - Runtime: ${text(project.details.runtimeOption, 'TBD')}
 - Backend: ${text(project.details.backendFramework, 'TBD')}
+- Additional tech stack requirements: ${text(project.details.additionalTechStackRequirements, 'None specified')}
 - Styling: ${list(project.details.styling)}
 - Theme mode: ${text(project.details.mode, 'TBD')}
 - Palette: ${list(project.details.palette)}
@@ -175,7 +176,7 @@ You are building ${project.name}. Treat this folder as the application repositor
 - Keep generated app assets in conventional project locations.
 - Use \`public/brand/\` for logo and brand assets.
 - Use \`docs/wireframe/\` as visual reference, not production source.
-- Follow the stack, backend, Docker, styling, palette, fonts, icon library, and agent instructions in \`openspec/config.yaml\` and \`docs/builder-inputs.md\`.
+- Follow the stack, backend, additional stack requirements, Docker, styling, palette, fonts, icon library, and agent instructions in \`openspec/config.yaml\` and \`docs/builder-inputs.md\`.
 - Run the AI Sanity Check Protocol below before coding and at each major build milestone.
 - Validate the OpenSpec change before final handoff when tooling is available:
   \`${text(project.details.validationCommand, `openspec validate ${changeId} --strict`)}\`
@@ -207,6 +208,7 @@ context: |${yamlBlock([
     `Tech stack: ${text(details.technologyStack, 'TBD')}`,
     `Runtime: ${text(details.runtimeOption, 'TBD')}`,
     `Backend: ${text(details.backendFramework, 'TBD')}`,
+    `Additional tech stack requirements: ${domainText(details.additionalTechStackRequirements, 'None specified')}`,
     `Stack interpretation: ${stackInterpretation(details)}`,
     `Styling: ${list(details.styling)}`,
     `Theme mode: ${text(details.mode, 'TBD')}`,
@@ -231,7 +233,7 @@ rules:
   proposal:
     - Include stack, backend, deployment, agent, and brand choices in implementation impact.
   design:
-    - Treat selected stack, backend, styling, palette, fonts, icons, Docker, Cloudflared, and Portainer choices as implementation constraints.
+    - Treat selected stack, backend, additional stack requirements, styling, palette, fonts, icons, Docker, Cloudflared, and Portainer choices as implementation constraints.
     - Include data model and integration implications for the selected backend.
   specs:
     - Use SHALL/MUST for normative requirements.
@@ -316,6 +318,7 @@ ${project.description || text(project.details.mission, 'TBD')}
 - Technology stack: ${text(project.details.technologyStack, 'TBD')}
 - Runtime: ${text(project.details.runtimeOption, 'TBD')}
 - Backend: ${text(project.details.backendFramework, 'TBD')}
+- Additional tech stack requirements: ${text(project.details.additionalTechStackRequirements, 'None specified')}
 - Stack interpretation: ${stackInterpretation(project.details)}
 - Docker: ${text(project.details.dockerStrategy, 'TBD')}
 - Cloudflared: ${text(project.details.cloudflared, 'TBD')}
@@ -357,6 +360,7 @@ This file records every OpenSpec-Builder wizard field in markdown so coding agen
 - Technology stack: ${text(d.technologyStack, 'TBD')}
 - Runtime option: ${text(d.runtimeOption, 'TBD')}
 - Backend framework: ${text(d.backendFramework, 'TBD')}
+- Additional tech stack requirements: ${text(d.additionalTechStackRequirements, 'None specified')}
 - Docker containers: ${text(d.dockerStrategy, 'TBD')}
 - Cloudflared: ${text(d.cloudflared, 'TBD')}
 - Portainer: ${text(d.portainer, 'TBD')}
@@ -581,7 +585,7 @@ function renderWireframe(project: ArtifactProject, logoHref: string) {
         <div class="brand">${logo ? `<img src="${logo}" alt="" />` : ''}<div><strong>${escapeHtml(project.name)}</strong><span>${escapeHtml(text(project.details.mode, 'Dark mode'))}</span></div></div>
         <nav class="side-nav">${navItems.map((item) => `<span>${escapeHtml(item)}</span>`).join('')}</nav>
         <div class="note"><strong>Wireframe intent</strong><p>This static preview mirrors the proposed navigation, document flow, and review screens so specs can be tuned before coding starts.</p></div>
-        <div class="panel" style="margin-top: 14px"><h3>Build signals</h3><p>${escapeHtml(stackInterpretation(project.details))}</p><p>${escapeHtml(text(project.details.integrations, 'No integrations specified'))}</p></div>
+        <div class="panel" style="margin-top: 14px"><h3>Build signals</h3><p>${escapeHtml(stackInterpretation(project.details))}</p><p>${escapeHtml(text(project.details.additionalTechStackRequirements, 'No additional stack requirements specified'))}</p><p>${escapeHtml(text(project.details.integrations, 'No integrations specified'))}</p></div>
       </aside>
       <main>
         <div class="topbar">

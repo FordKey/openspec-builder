@@ -59,6 +59,7 @@ type FormState = {
   runtimeOption: string;
   backendFramework: string;
   dockerStrategy: string;
+  additionalTechStackRequirements: string;
   capabilityName: string;
   changeId: string;
   proposalWhy: string;
@@ -118,6 +119,7 @@ const emptyForm: FormState = {
   runtimeOption: 'Hono TanStack',
   backendFramework: 'Supabase',
   dockerStrategy: 'All backend except App',
+  additionalTechStackRequirements: '',
   capabilityName: 'app-foundation',
   changeId: 'add-app-foundation',
   proposalWhy: '',
@@ -570,6 +572,14 @@ function Wizard(props: {
               <Select label="Cloudflared" value={form.cloudflared} options={['No', 'Yes']} onChange={(value) => update('cloudflared', value)} />
               <Select label="Portainer" value={form.portainer} options={['No', 'Yes']} onChange={(value) => update('portainer', value)} />
               <Select label="Docker containers" value={form.dockerStrategy} options={dockerOptions} onChange={(value) => update('dockerStrategy', value)} />
+              <Field label="Additional Tech Stack Requirements" className="wide">
+                <textarea
+                  rows={5}
+                  value={form.additionalTechStackRequirements}
+                  onChange={(event) => update('additionalTechStackRequirements', event.target.value)}
+                  placeholder="PaddleOCR, electricsql, Google Auth"
+                />
+              </Field>
               <CheckboxGroup label="Agent models" values={agentModels} selected={form.agentModels} onToggle={(value) => toggle('agentModels', value)} />
               <CheckboxGroup label="Desired skills" values={skills} selected={form.skills} onToggle={(value) => toggle('skills', value)} />
             </div>
@@ -768,8 +778,8 @@ function SummaryView(props: {
   );
 }
 
-function Field(props: { label: string; children: React.ReactNode }) {
-  return <label className="field"><span>{props.label}</span>{props.children}</label>;
+function Field(props: { label: string; children: React.ReactNode; className?: string }) {
+  return <label className={['field', props.className].filter(Boolean).join(' ')}><span>{props.label}</span>{props.children}</label>;
 }
 
 function Select(props: { label: string; value: string; options: string[]; onChange: (value: string) => void }) {
@@ -868,10 +878,10 @@ function deriveProjectDetails(form: FormState): FormState {
     taskPlan: form.taskPlan && form.taskPlan !== emptyForm.taskPlan
       ? form.taskPlan
       : '1.1 Scaffold the app foundation\n1.2 Implement the data model and API\n1.3 Build the main workflow UI\n1.4 Add brand styling and responsive polish\n1.5 Verify with build and smoke tests',
-    designContext: form.designContext || `${form.mission}\n\nAudience: ${form.audience}\n\nData: ${form.dataNeeds || 'TBD'}\nIntegrations: ${form.integrations || 'None specified'}`,
+    designContext: form.designContext || `${form.mission}\n\nAudience: ${form.audience}\n\nData: ${form.dataNeeds || 'TBD'}\nIntegrations: ${form.integrations || 'None specified'}\nAdditional tech stack requirements: ${form.additionalTechStackRequirements || 'None specified'}`,
     designGoals: form.designGoals || 'Simple to run in a home lab; clear enough for VS Code Chat agents to implement.',
     designNonGoals: form.designNonGoals || form.outOfScope || 'Avoid advanced edge cases until the first version works.',
-    designDecisions: form.designDecisions || `Use ${form.runtimeOption} with ${form.backendFramework}. Prefer straightforward CRUD, readable code, and Docker-friendly deployment.`,
+    designDecisions: form.designDecisions || `Use ${form.runtimeOption} with ${form.backendFramework}. Prefer straightforward CRUD, readable code, and Docker-friendly deployment.${form.additionalTechStackRequirements ? ` Include these additional stack requirements where they fit the implementation: ${form.additionalTechStackRequirements}.` : ''}`,
     risksTradeoffs: form.risksTradeoffs || form.constraints || 'Keep setup simple and avoid unnecessary infrastructure.',
     migrationPlan: form.migrationPlan || 'No migration required for a new app.',
     openQuestions: form.openQuestions || 'None for the first implementation pass.',

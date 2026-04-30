@@ -53,6 +53,7 @@ h2, h3, p { letter-spacing: 0; }
 .grid.two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
 .grid.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
 .field { display: flex; flex-direction: column; gap: 8px; color: #a1a1aa; font-size: 13px; }
+.field.wide { grid-column: 1 / -1; }
 input, textarea, select { width: 100%; border: 1px solid #3f3f46; background: #09090b; color: #f4f4f5; border-radius: 8px; padding: 10px 12px; outline: none; }
 input:focus, textarea:focus, select:focus { border-color: #d6ad57; }
 textarea { min-height: 132px; resize: vertical; }
