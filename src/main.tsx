@@ -577,7 +577,7 @@ function Wizard(props: {
                   rows={5}
                   value={form.additionalTechStackRequirements}
                   onChange={(event) => update('additionalTechStackRequirements', event.target.value)}
-                  placeholder="PaddleOCR, electricsql, Google Auth"
+                  placeholder="PaddleOCR, ElectricSQL, and Google Auth"
                 />
               </Field>
               <CheckboxGroup label="Agent models" values={agentModels} selected={form.agentModels} onToggle={(value) => toggle('agentModels', value)} />
